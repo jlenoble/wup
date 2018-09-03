@@ -1,0 +1,25 @@
+{
+  "name": "wup",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlenoble/wup.git"
+  },
+  "author": {
+    "name": "Jason Lenoble",
+    "email": "jason.lenoble@gmail.com"
+  },
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=9.8.0"
+  },
+  "bugs": {
+    "url": "https://github.com/jlenoble/wup/issues"
+  },
+  "homepage": "https://github.com/jlenoble/wup#readme"
+}
