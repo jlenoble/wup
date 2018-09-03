@@ -32,6 +32,7 @@
     "gulp-debug": "^4.0.0",
     "gulp-newer": "^1.4.0",
     "gulp-util": "^3.0.8",
+    "gulptask": "^0.4.2",
     "plumb-gulp": "^0.1.2"
   }
 }
