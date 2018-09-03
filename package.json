@@ -31,6 +31,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-debug": "^4.0.0",
     "gulp-newer": "^1.4.0",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "plumb-gulp": "^0.1.2"
   }
 }
