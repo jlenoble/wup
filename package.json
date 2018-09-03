@@ -25,6 +25,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "autoreload-gulp": "^0.3.0",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-debug": "^4.0.0",
