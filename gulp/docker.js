@@ -20,7 +20,7 @@ function dockerStop (cb) {
     exec('docker-compose stop', echo(cb));
   } else {
     exec('docker-compose stop', err => {
-      process.stdout.write('');
+      console.log('');
       cb(err);
     });
   }
