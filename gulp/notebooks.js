@@ -45,13 +45,18 @@ function convertNotebooks () {
 function transpileNotebooks () {
   const glob = Array.from(notebooks).map(file => file.replace(/\.ipynb$/,
     '.*'));
+  const f = filter('**/*.js', {restore: true, passthrough: false});
 
-  return gulp.src(glob, {lastRun: transpileNotebooks, cwd: buildDir,
+  const stream = gulp.src(glob, {lastRun: transpileNotebooks, cwd: buildDir,
     base: buildDir})
     .pipe(newer('.'))
-    .pipe(filter('.js'))
+    .pipe(f)
     .pipe(transpilePipe.plugin())
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest('.'));
+
+  f.restore.pipe(gulp.dest('.'));
+
+  return stream;
 }
 
 function watchNotebooks (done) {
