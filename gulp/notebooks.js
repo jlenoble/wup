@@ -1,24 +1,22 @@
 import gulp from 'gulp';
 import tap from 'gulp-tap';
-import concat from 'gulp-concat';
 import exec from 'gulp-exec';
 import newer from 'gulp-newer';
 import path from 'path';
 import destglob from 'destglob';
-import {Buffer} from 'buffer';
-import {spawn} from 'child_process';
-
 import {buildDir} from './helpers/dirs';
+import {transpilePipe} from './helpers/pipes';
 
 const ipynbGlob = ['**/*.ipynb', '!node_modules/**/*', '!.git/**/*',
   '!build/**/*', '!gulp/**/*'];
+
+const notebooks = new Set();
 
 function convertNotebooks () {
   const options = {
     continueOnError: false, // default = false, true means don't emit error event
     pipeStdout: false, // default = false, true means stdout is written to file.contents
-    outputDir: dirname => path.join(process.cwd(), ...destglob(
-      dirname, buildDir)),
+    outputName: name => path.join(process.cwd(), ...destglob(name, buildDir)),
   };
   const reportOptions = {
     err: true, // default = true, false means don't write err
@@ -27,6 +25,9 @@ function convertNotebooks () {
   };
 
   return gulp.src(ipynbGlob, {lastRun: convertNotebooks})
+    .pipe(tap(function (file) {
+      notebooks.add(options.outputName(file.path));
+    }))
     .pipe(newer({
       dest: buildDir,
       ext: '.js',
@@ -36,13 +37,29 @@ function convertNotebooks () {
       ext: '.py',
     }))
     .pipe(exec('jupyter nbconvert --to script --output-dir ' +
-      '"<%= options.outputDir(file.dirname) %>" "<%= file.path %>"', options))
+      '"<%= options.outputName(file.dirname) %>" "<%= file.path %>"', options))
     .pipe(exec.reporter(reportOptions));
+}
+
+function transpileNotebooks () {
+  const glob = Array.from(notebooks).map(file => file.replace(/\.ipynb$/,
+    '.*'));
+  return gulp.src(glob, {lastRun: transpileNotebooks, cwd: buildDir,
+    base: buildDir})
+    .pipe(newer('.'))
+    .pipe(transpilePipe.plugin())
+    .pipe(gulp.dest('.'))
 }
 
 function watchNotebooks (done) {
   gulp.watch(ipynbGlob, convertNotebooks);
+
+  const glob = Array.from(notebooks).map(file => file.replace(/\.ipynb$/,
+    '.*'));
+  gulp.watch(glob, transpileNotebooks);
+
   done();
 }
 
-gulp.task('notebooks', gulp.series(convertNotebooks, watchNotebooks));
+gulp.task('notebooks', gulp.series(convertNotebooks, transpileNotebooks,
+  watchNotebooks));
