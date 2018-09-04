@@ -38,6 +38,7 @@
     "gulp-tap": "^1.0.1",
     "gulp-util": "^3.0.8",
     "gulptask": "^0.4.2",
+    "mongoose": "^5.2.13",
     "node-cleanup": "^2.1.2",
     "plumb-gulp": "^0.1.2"
   }
