@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import tap from 'gulp-tap';
 import exec from 'gulp-exec';
+import filter from 'gulp-filter';
 import newer from 'gulp-newer';
 import path from 'path';
 import destglob from 'destglob';
@@ -44,9 +45,11 @@ function convertNotebooks () {
 function transpileNotebooks () {
   const glob = Array.from(notebooks).map(file => file.replace(/\.ipynb$/,
     '.*'));
+
   return gulp.src(glob, {lastRun: transpileNotebooks, cwd: buildDir,
     base: buildDir})
     .pipe(newer('.'))
+    .pipe(filter('.js'))
     .pipe(transpilePipe.plugin())
     .pipe(gulp.dest('.'))
 }
