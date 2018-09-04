@@ -5,3 +5,6 @@ export const buildDir = 'build';
 
 // Gulp includes and helpers directory
 export const gulpDir = 'gulp';
+
+// Main source file directory
+export const srcDir = 'src';
