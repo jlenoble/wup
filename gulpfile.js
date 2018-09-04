@@ -28,7 +28,7 @@ try {
   });
 
   gulp.task(autoTask, gulp.series('tdd:transpile:gulp', 'docker', 'notebooks',
-    'tdd:transpile:src'));
+    'tdd:transpile:src', 'copy:util'));
 
   // If success, start infinite dev process with autoreload
   gulp.task('default', autoreload(autoTask, gulpDir));
