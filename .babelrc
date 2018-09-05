@@ -4,7 +4,11 @@
       "targets": {
         "node": "current"
       }
-    }]
+    }],
+    "react"
   ],
-  "plugins": ["add-module-exports"]
+  "plugins": [
+    "add-module-exports",
+    "transform-object-rest-spread"
+  ]
 }

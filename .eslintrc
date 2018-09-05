@@ -2,9 +2,11 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "ecmaFeatures": {}
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
-  "plugins": [],
+  "plugins": ["react"],
   "extends": [],
   "rules": {}
 }
