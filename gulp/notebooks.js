@@ -24,7 +24,7 @@ function convertNotebooks () {
   	stdout: true // default = true, false means don't write stdout
   };
 
-  return gulp.src(ipynbGlob, {lastRun: convertNotebooks})
+  return gulp.src(ipynbGlob, {lastRun: convertNotebooks, base: '.'})
     .pipe(tap(function (file) {
       notebooks.add(options.outputName(file.path));
     }))
