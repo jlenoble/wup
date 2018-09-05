@@ -6,5 +6,3 @@ const db = 'wup';
 const mongoUri = `mongodb://${host}/${db}`;
 
 mongoose.connect(mongoUri, {useNewUrlParser: true});
-
-export default mongoose;

@@ -1,4 +1,4 @@
-import Model from '../mongoose/schemas/problem';
+import {Problem as Model} from '../mongoose/models';
 
 const problems = new Map();
 const dict = new Map();

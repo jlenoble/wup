@@ -1,7 +1,5 @@
-import mongoose from '../connect';
+import mongoose from 'mongoose';
 
-const schema = new mongoose.Schema({
+export default new mongoose.Schema({
   title: String,
 });
-
-export default mongoose.model('Problem', schema);
