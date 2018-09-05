@@ -5,11 +5,10 @@ import filter from 'gulp-filter';
 import newer from 'gulp-newer';
 import path from 'path';
 import destglob from 'destglob';
-import {buildDir} from './helpers/dirs';
+import {buildDir, logDir} from './helpers/dirs';
 import {transpilePipe} from './helpers/pipes';
 
-const ipynbGlob = ['**/*.ipynb', '!node_modules/**/*', '!.git/**/*',
-  '!build/**/*', '!gulp/**/*'];
+const ipynbGlob = path.join(logDir, '**/*.ipynb');
 
 const notebooks = new Set();
 
