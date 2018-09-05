@@ -16,7 +16,7 @@ Model.find({}, (err, models) => {
   });
 
   if (problems.size !== dict.size) {
-    throw new Error(`${problems.size - dict.size} redundant problems`);
+    console.error(`${problems.size - dict.size} redundant problems`);
   }
 });
 
@@ -29,13 +29,14 @@ export default class Problem {
     const {title} = options;
 
     if (dict.has(title)) {
-      throw new Error(`"${title}" is already a problem`);
+      console.error(`"${title}" is already a problem`);
+      return;
     }
 
     const model = new Model(options);
     model.save(err => {
       if (err) {
-        throw err;
+        return console.error(err);
       }
 
       problems.set(model._id, model);
