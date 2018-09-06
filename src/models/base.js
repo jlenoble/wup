@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDom from 'react-dom/server';
+
 export default class Base {
   constructor (options = {}) {
     if (typeof options === 'string') {
@@ -37,32 +40,50 @@ export default class Base {
     const mods = new Map();
     const dict = new Map();
 
-    Model.find({}, (err, models) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+    const asyncThisClass = new Promise(resolve => {
+      Model.find({}, (err, models) => {
+        if (err) {
+          console.error(err);
+        } else {
+          models.forEach(model => {
+            const {title, _id} = model;
 
-      models.forEach(model => {
-        const {title, _id} = model;
+            mods.set(_id, model);
+            dict.set(title, model);
+          });
 
-        mods.set(_id, model);
-        dict.set(title, model);
+          if (mods.size !== dict.size) {
+            console.warn(`${mods.size - dict.size} redundant ${Model.name}(s)`);
+          }
+        }
+
+        resolve(this);
       });
-
-      if (mods.size !== dict.size) {
-        console.warn(`${mods.size - dict.size} redundant ${Model.name}(s)`);
-      }
     });
 
     Object.defineProperties(this, {
       Model: {value: Model},
       models: {value: mods},
       dict: {value: dict},
+      async: {
+        async get () {
+          return asyncThisClass;
+        },
+      },
     });
   }
 
-  static list () {
-    return Array.from(this.dict.keys());
+  static _toHtml () {
+    const items = Array.from(this.dict.keys()).map((item, i) => (
+      <li key={i}>{item}</li>
+    ));
+
+    return ReactDom.renderToStaticMarkup(
+      <ul>{items}</ul>
+    );
+  }
+
+  static async list () {
+    return Array.from((await this.async).dict.keys());
   }
 }
