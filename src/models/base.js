@@ -84,6 +84,8 @@ export default class Base {
   }
 
   static async list () {
-    return Array.from((await this.async).dict.keys());
+    const $$ = global.$$;
+    $$.async();
+    $$.sendResult(await this.async);
   }
 }
