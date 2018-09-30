@@ -1,6 +1,6 @@
 import gulp from 'gulp';
 import {exec} from 'child_process';
-import cleanUp from 'node-cleanup';
+import cleanUp from './helpers/cleanup';
 
 const echo = cb => (err, stdout, stderr) => {
   console.log(stdout);
@@ -26,17 +26,6 @@ function dockerStop (cb) {
   }
 }
 
-cleanUp(function (exitCode, signal) {
-  if (signal) {
-    dockerStop(function done() {
-      // calling process.exit() won't inform parent process of signal
-      process.kill(process.pid, signal);
-    });
-
-    cleanUp.uninstall(); // don't call cleanup handler again
-
-    return false;
-  }
-});
+cleanUp(dockerStop);
 
 gulp.task('docker', gulp.series(dockerStart));
