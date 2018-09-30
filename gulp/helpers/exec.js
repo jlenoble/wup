@@ -3,7 +3,9 @@ import {exec} from 'child_process';
 const echo = cb => (err, stdout, stderr) => {
   console.log(stdout);
   console.log(stderr);
-  cb(err);
+  if (cb) {
+    cb(err);
+  }
 }
 
 export default function (cmd, cb) {
