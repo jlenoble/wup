@@ -27,11 +27,15 @@ try {
     require(path.join(process.cwd(), gulpDir, filename));
   });
 
+  require(path.join(process.cwd(), gulpDir, 'helpers/cleanup'))
+    .keepTopProcessAliveTillAutoTaskExits();
+
   gulp.task(autoTask, gulp.series('tdd:transpile:gulp', 'docker', 'notebooks',
     'tdd:transpile:src', 'copy:util'));
 
   // If success, start infinite dev process with autoreload
   gulp.task('default', autoreload(autoTask, gulpDir));
+
 } catch (err) {
   // If error, try to regenerate include files
 
