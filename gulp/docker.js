@@ -8,24 +8,14 @@ const echo = cb => (err, stdout, stderr) => {
   cb(err);
 }
 
-let p;
-
 function dockerStart (cb) {
-  p = exec('docker-compose start', echo(cb));
+  exec('docker-compose start', echo(cb));
+  cleanUp(dockerStop);
 }
 
 function dockerStop (cb) {
-  if (p) {
-    console.log('\nStopping services...');
-    exec('docker-compose stop', echo(cb));
-  } else {
-    exec('docker-compose stop', err => {
-      console.log('');
-      cb(err);
-    });
-  }
+  console.log('\nStopping services...');
+  exec('docker-compose stop', echo(cb));
 }
-
-cleanUp(dockerStop);
 
 gulp.task('docker', gulp.series(dockerStart));
