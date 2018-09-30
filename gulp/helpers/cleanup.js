@@ -1,7 +1,6 @@
 import {default as originalCleanUp} from 'node-cleanup';
 import fs from 'fs';
 import path from 'path';
-import exec from './exec';
 import {execSync} from 'child_process';
 import {buildDir} from './dirs';
 
@@ -56,16 +55,16 @@ function exitOnlyIfLastChild (signal, handler) {
   }
 }
 
-function lock (cb) {
+function lock () {
   const lockFile = path.join(process.cwd(), buildDir,
     `.lock-gulp-tdd-${process.pid}`);
-  exec(`touch ${lockFile}`, cb);
+  execSync(`touch ${lockFile}`);
 }
 
-function unlock (cb) {
+function unlock () {
   const lockFiles = path.join(process.cwd(), buildDir,
     `.lock-gulp-tdd-*`);
-  exec(`rm ${lockFiles}`, cb);
+  execSync(`rm -f ${lockFiles}`);
 }
 
 function getLockFiles () {
