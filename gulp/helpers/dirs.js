@@ -14,3 +14,6 @@ export const utilDir = path.join(buildDir, srcDir, 'util');
 
 // Notebook directory
 export const logDir = 'private/Journal';
+
+// Template directory
+export const templateDir = path.join(srcDir, 'templates');
