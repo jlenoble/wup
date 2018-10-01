@@ -6,7 +6,7 @@ import exec from './helpers/exec';
 let p;
 
 function jupyterStart (cb) {
-  p = spawn('jupyter', ['notebook', '--debug'], {stdio: 'inherit'});
+  p = spawn('jupyter', ['notebook'], {stdio: 'inherit'});
   cleanUp(jupyterStop);
   cb();
 }
