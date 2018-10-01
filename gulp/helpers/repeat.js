@@ -2,7 +2,7 @@ import cleanUp from './cleanup';
 import {thisMidnight, safeNow} from './autonaming';
 
 export default function repeatFactory (start, interval, run, stopMessage) {
-  return function repeatAtFixedInterval (cb) {
+  return function (cb) {
     function repeat () {
       const id = setInterval(run, interval);
 
@@ -28,5 +28,10 @@ export function repeatEveryDay (run, stopMessage) {
   const start = thisMidnight() - safeNow();
   const interval = 24 * 3600 * 1000;
 
-  return repeatFactory(start, interval, run, stopMessage);
+  const fn = repeatFactory(start, interval, run, stopMessage);
+
+  Object.defineProperty(fn, 'name', {value: 'repeatEveryDay' +
+    run.name[0].toUpperCase() + run.name.slice(1)});
+
+  return fn;
 }
