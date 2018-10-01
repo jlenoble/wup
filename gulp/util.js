@@ -1,13 +1,10 @@
 import gulp from 'gulp';
 import newer from 'gulp-newer';
-import moment from 'moment';
 import path from 'path';
-import {utilDir, logDir} from './helpers/dirs';
+import {utilDir} from './helpers/dirs';
+import {thisMonthDir} from './helpers/autonaming';
 
 const utilGlob = path.join(utilDir, '*.js');
-
-const thisMonth = moment().format('YYYY/MM');
-const thisMonthDir = path.join(logDir, thisMonth);
 
 function copyUtil () {
   return gulp.src(utilGlob, {lastRun: copyUtil, base: utilDir})
