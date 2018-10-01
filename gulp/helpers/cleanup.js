@@ -87,26 +87,22 @@ function isTopProcess () {
   }
 }
 
+function msleep(n) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
+}
+
 function keepAlive (cb) {
   if (isTopProcess()) {
     const lockFiles = getLockFiles();
-    const childLockFile = lockFiles[lockFiles.length - 1];
+    const childLockFile = path.join(process.cwd(), buildDir,
+      lockFiles[lockFiles.length - 1]);
 
-    let t0 = Date.now();
-    let n = 1;
-
-    while (1) {
-      if (Date.now() - t0 > n * 500) {
-        try {
-          fs.statSync(path.join(process.cwd(), buildDir, childLockFile));
-        } catch (e) {
-          break; // Child process has returned
-        }
-        n++;
-      }
-
-      if (Date.now() - t0 > 30000) {
-        break; // Child process is taking too long to clean up
+    for (let i = 0; i < 60; i++) {
+      try {
+        msleep(500);
+        fs.statSync(childLockFile);
+      } catch (e) {
+        break; // Child process has returned
       }
     }
   }
