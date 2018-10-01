@@ -20,24 +20,22 @@ function createTodayNotebook () {
     .pipe(gulp.dest(dest));
 }
 
-function OpenTodayNotebook (cb) {
+function openTodayNotebook (cb) {
   const dest = thisMonthDir();
   const notebook = path.basename(todayNotebook());
   exec(`google-chrome http://localhost:8888/tree/${dest}/${notebook}`, cb);
 }
 
-function run () {
+function createAndOpenTodayNotebook () {
   createTodayNotebook()
     .on('end', () => {
       gutil.log(`Created today notebook ${todayNotebook()}`);
 
-      OpenTodayNotebook(function () {
+      openTodayNotebook(function () {
         gutil.log(`Opened today notebook ${todayNotebook()}`);
       });
     });
 }
 
-const stopMessage = 'Stopping auto notebook...';
-
-gulp.task('today', gulp.series(createTodayNotebook, OpenTodayNotebook,
-  repeatEveryDay(run, stopMessage)));
+gulp.task('today', gulp.series(createTodayNotebook, openTodayNotebook,
+  repeatEveryDay(createAndOpenTodayNotebook, 'Stopping auto notebook...')));
