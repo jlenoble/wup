@@ -2,10 +2,8 @@ import moment from 'moment';
 import path from 'path';
 import {logDir} from './dirs';
 
-export const now = moment();
+export const thisMonth = () => moment().format('YYYY/MM');
+export const thisMonthDir = () => path.join(logDir, thisMonth());
 
-export const thisMonth = now.format('YYYY/MM');
-export const thisMonthDir = path.join(logDir, thisMonth);
-
-export const today = now.format('YYYY/MM/DD');
-export const todayNotebook = path.join(logDir, today + '.ipynb');
+export const today = () => moment().format('YYYY/MM/DD');
+export const todayNotebook = () => path.join(logDir, today() + '.ipynb');

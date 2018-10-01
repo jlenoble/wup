@@ -7,9 +7,11 @@ import {thisMonthDir} from './helpers/autonaming';
 const utilGlob = path.join(utilDir, '*.js');
 
 function copyUtil () {
+  const dest = thisMonthDir();
+
   return gulp.src(utilGlob, {lastRun: copyUtil, base: utilDir})
-    .pipe(newer(thisMonthDir))
-    .pipe(gulp.dest(thisMonthDir));
+    .pipe(newer(dest))
+    .pipe(gulp.dest(dest));
 }
 
 function watchUtil (done) {
