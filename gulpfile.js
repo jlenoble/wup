@@ -30,8 +30,22 @@ try {
   require(path.join(process.cwd(), gulpDir, 'helpers/cleanup'))
     .keepTopProcessAliveTillAutoTaskExits();
 
-  gulp.task(autoTask, gulp.series('tdd:transpile:gulp', 'docker', 'notebooks',
-    'tdd:transpile:src', 'copy:util'));
+  gulp.task(autoTask,
+    gulp.parallel(
+      gulp.series(
+        'tdd:transpile:gulp',
+        gulp.parallel(
+          gulp.series(
+            'tdd:transpile:src',
+            'copy:util'
+          ),
+          'notebooks'
+        )
+      ),
+      'docker',
+      'jupyter'
+    )
+  );
 
   // If success, start infinite dev process with autoreload
   gulp.task('default', autoreload(autoTask, gulpDir));
