@@ -39,7 +39,10 @@ try {
             'tdd:transpile:src',
             'copy:util'
           ),
-          'notebooks'
+          gulp.series(
+            'today',
+            'notebooks'
+          )
         )
       ),
       'docker',
