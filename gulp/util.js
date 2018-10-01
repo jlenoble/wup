@@ -3,13 +3,14 @@ import newer from 'gulp-newer';
 import path from 'path';
 import {utilDir} from './helpers/dirs';
 import {thisMonthDir} from './helpers/autonaming';
+import {repeatEveryDay} from './helpers/repeat';
 
 const utilGlob = path.join(utilDir, '*.js');
 
 function copyUtil () {
   const dest = thisMonthDir();
 
-  return gulp.src(utilGlob, {lastRun: copyUtil, base: utilDir})
+  return gulp.src(utilGlob, {base: utilDir})
     .pipe(newer(dest))
     .pipe(gulp.dest(dest));
 }
@@ -19,4 +20,5 @@ function watchUtil (done) {
   done();
 }
 
-gulp.task('copy:util', gulp.series(copyUtil, watchUtil));
+gulp.task('copy:util', gulp.series(copyUtil, watchUtil,
+  repeatEveryDay(copyUtil, 'Stopping auto util...')));
