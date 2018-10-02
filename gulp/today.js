@@ -3,10 +3,12 @@ import newer from 'gulp-newer';
 import rename from 'gulp-rename';
 import gutil from 'gulp-util';
 import path from 'path';
+import {resolveMessage} from 'child-process-data';
 import exec from './helpers/exec';
 import {templateDir} from './helpers/dirs';
 import {repeatEveryDay} from './helpers/repeat';
 import {thisMonthDir, todayNotebook} from './helpers/autonaming';
+import {jupyterStarted} from './helpers/regex';
 
 const notebookTemplateGlob = path.join(templateDir, 'today.ipynb');
 
@@ -37,5 +39,9 @@ function createAndOpenTodayNotebook () {
     });
 }
 
-gulp.task('today', gulp.series(createTodayNotebook, openTodayNotebook,
-  repeatEveryDay(createAndOpenTodayNotebook, 'Stopping auto notebook...')));
+gulp.task('today', gulp.series(
+  resolveMessage(jupyterStarted),
+  createTodayNotebook,
+  openTodayNotebook,
+  repeatEveryDay(createAndOpenTodayNotebook, 'Stopping auto notebook...')
+));
