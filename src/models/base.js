@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDom from 'react-dom/server';
-
 export default class Base {
   constructor (options = {}) {
     if (typeof options === 'string') {
@@ -73,19 +70,37 @@ export default class Base {
     });
   }
 
-  static _toHtml () {
-    const items = Array.from(this.dict.keys()).map((item, i) => (
-      <li key={i}>{item}</li>
-    ));
+  static _toMime () {
+    const data = {
+      name: this.name,
+      display: this.display,
+      props: {
+        models: Array.from(this.models),
+      },
+    }
 
-    return ReactDom.renderToStaticMarkup(
-      <ul>{items}</ul>
-    );
+    return {
+      'react/component': JSON.stringify(data),
+    };
   }
 
   static async list () {
-    const $$ = global.$$;
     $$.async();
-    $$.sendResult(await this.async);
+    const that = await this.async;
+    that.display = 'base';
+    $$.sendResult(that);
   }
 }
+
+['ul', 'ol'].forEach(display => {
+  const fn = async function () {
+    $$.async();
+    const that = await this.async;
+    that.display = display;
+    $$.sendResult(that);
+  }
+
+  Object.defineProperty(fn, 'name', {value: display});
+
+  Base[display] = fn;
+});
