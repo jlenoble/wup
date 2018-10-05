@@ -3,7 +3,7 @@ import {spawn} from 'child_process';
 import {interceptMessage} from 'child-process-data';
 import cleanUp from './helpers/cleanup';
 import exec from './helpers/exec';
-import {jupyterStarted} from './helpers/regex';
+import {jupyterStarted, tokenAccepted} from './helpers/regex';
 
 let p;
 
@@ -11,6 +11,7 @@ function jupyterStart (cb) {
   p = spawn('jupyter', ['notebook']);
 
   interceptMessage(p, jupyterStarted);
+  interceptMessage(p, tokenAccepted, {silent: true});
 
   cleanUp(jupyterStop);
 

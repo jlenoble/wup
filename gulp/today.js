@@ -8,7 +8,7 @@ import exec from './helpers/exec';
 import {templateDir} from './helpers/dirs';
 import {repeatEveryDay} from './helpers/repeat';
 import {thisMonthDir, todayNotebook} from './helpers/autonaming';
-import {jupyterStarted} from './helpers/regex';
+import {jupyterStarted, tokenAccepted} from './helpers/regex';
 
 const notebookTemplateGlob = path.join(templateDir, 'today.ipynb');
 
@@ -41,6 +41,7 @@ function createAndOpenTodayNotebook () {
 
 gulp.task('today', gulp.series(
   resolveMessage(jupyterStarted),
+  resolveMessage(tokenAccepted),
   createTodayNotebook,
   openTodayNotebook,
   repeatEveryDay(createAndOpenTodayNotebook, 'Stopping auto notebook...')
