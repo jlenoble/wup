@@ -3,11 +3,12 @@ define(function (require) {
 
   return class Component extends React.Component {
     render () {
-      const {models} = this.props;
+      const {models, keys} = this.props;
+      const [prop] = keys;
 
       return <ul>
         {models.map(([key, obj]) => {
-          return <li key={key}>{obj.title}</li>;
+          return <li key={key}>{obj[prop]}</li>;
         })}
       </ul>;
     }

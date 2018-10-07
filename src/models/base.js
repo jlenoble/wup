@@ -76,6 +76,7 @@ export default class Base {
       display: this.display,
       props: {
         models: Array.from(this.models),
+        keys: this.keys || [],
       },
     }
 
@@ -93,10 +94,11 @@ export default class Base {
 }
 
 ['ul', 'ol'].forEach(display => {
-  const fn = async function () {
+  const fn = async function (keys = ['title']) {
     $$.async();
     const that = await this.async;
     that.display = display;
+    that.keys = Array.isArray(keys) ? keys : [keys];
     $$.sendResult(that);
   }
 

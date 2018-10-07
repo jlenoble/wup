@@ -2,8 +2,10 @@
 
 requirejs.config({
   paths: {
-    'react': '//unpkg.com/react@16/umd/react.development',
-    'react-dom': '//unpkg.com/react-dom@16/umd/react-dom.development',
+    'vendors': './vendors',
+    'react': 'vendors/react/umd/react.development',
+    'react-dom': 'vendors/react-dom/umd/react-dom.development',
+    'prop-types': 'vendors/prop-types/prop-types',
   }
 });
 
@@ -21,8 +23,8 @@ define(function (require) {
 
     function getElement ({name, display, props}) {
       const Component = require(`./components/${display}`);
-      const {models} = props;
-      return <Component models={models}/>;
+      const {models, keys} = props;
+      return <Component models={models} keys={keys}/>;
     }
 
     function append_react_component (data, md, element) {
