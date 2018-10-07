@@ -39,14 +39,14 @@ try {
             'tdd:transpile:src',
             'copy:util'
           ),
-          gulp.series(
-            'today',
-            'notebooks'
-          )
-        )
+          'transpile:glyph'
+        ),
+        'jupyter',
+        'today',
+        'notebooks'
       ),
       'docker',
-      'jupyter'
+      'vendors'
     )
   );
 
