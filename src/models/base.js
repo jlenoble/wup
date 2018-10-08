@@ -93,7 +93,7 @@ export default class Base {
   }
 }
 
-['ul', 'ol'].forEach(display => {
+['ul', 'ol', 'table'].forEach(display => {
   const fn = async function (keys = ['title']) {
     $$.async();
     const that = await this.async;
