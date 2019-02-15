@@ -22,7 +22,9 @@
     "url": "https://github.com/jlenoble/wup/issues"
   },
   "homepage": "https://github.com/jlenoble/wup#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/mongoose": "^5.3.17"
+  },
   "devDependencies": {
     "autoreload-gulp": "^0.4.1",
     "babel-core": "^6.26.3",
