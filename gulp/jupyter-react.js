@@ -13,8 +13,8 @@ const glyphSrcDirs = [
 ];
 
 const makeGlob = (dir, base, ext, exclude) => {
-  let p1 = path.join(nodeDir, dir, srcDir, base + ext);
-  let p2 = exclude ? path.join(nodeDir, dir, srcDir, exclude + ext) : '';
+  const p1 = path.join(nodeDir, dir, srcDir, base + ext);
+  const p2 = exclude ? path.join(nodeDir, dir, srcDir, exclude + ext) : '';
   return {
     glob: exclude ? [p1, '!' + p2] : [p1],
     base: path.join(nodeDir, dir, srcDir),
@@ -45,9 +45,19 @@ function makeTranspileGlyphCallbacks () {
       return gulp.src(glob, {base, since: gulp.lastRun(fn)})
         .pipe(newer(dest))
         .pipe(babel({
-          plugins: [
-            'transform-object-rest-spread',
-            'transform-modules-amd',
+          'presets': [
+            ['@babel/preset-env', {
+              'targets': {
+                'node': 'current',
+              },
+            }],
+            '@babel/preset-typescript',
+            '@babel/preset-react',
+          ],
+          'plugins': [
+            '@babel/plugin-proposal-object-rest-spread',
+            'babel-plugin-transform-modules-amd',
+            'babel-plugin-add-module-exports',
           ],
         }))
         .pipe(gulp.dest(dest));

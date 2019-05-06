@@ -1,14 +1,22 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "targets": {
         "node": "current"
       }
     }],
-    "react"
+    "@babel/preset-react",
+    ["@babel/preset-typescript", {"allExtensions": true}]
   ],
   "plugins": [
-    "add-module-exports",
-    "transform-object-rest-spread"
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "decoratorsBeforeExport": true
+      }
+    ],
+    "@babel/plugin-proposal-object-rest-spread",
+    "babel-plugin-add-module-exports"
   ]
 }
