@@ -43,7 +43,7 @@ try {
         ),
         'jupyter',
         'today',
-        'notebooks'
+        // 'notebooks'
       ),
       'docker',
       'vendors'
