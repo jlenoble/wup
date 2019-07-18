@@ -2,3 +2,5 @@ build
 private
 node_modules
 .ipynb_checkpoints
+verdaccio/config/htpasswd
+verdaccio/storage
